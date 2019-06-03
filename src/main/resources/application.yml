@@ -1,0 +1,72 @@
+##########################################################
+##################  所有profile共有的配置  #################
+##########################################################
+
+
+###################  项目启动端口  ###################
+server.port: 8092
+# jackson时间格式化
+
+
+###################  spring配置  ###################
+spring:
+  profiles:
+    active: dev
+  jackson:
+          time-zone: GMT+8
+          date-format: yyyy-MM-dd HH:mm:ss
+
+###################  mybatis-plus配置  ###################
+mybatis-plus:
+  mapper-locations: classpath*:com/kjs/customer/dao/mapping/*.xml
+  typeAliasesPackage: >
+    com.kjs.customer.entity,
+    com.kjs.customer.pojo
+  global-config:
+    id-type: 0  # 0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    db-column-underline: false
+    refresh-mapper: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true #配置的缓存的全局开关
+    lazyLoadingEnabled: true #延时加载的开关
+    multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+
+logging:
+  level:
+    org.springframework.web.servlet: ERROR
+
+---
+
+#####################################################################
+########################  开发环境profile  ##########################
+#####################################################################
+spring:
+  profiles: dev
+  datasource:
+      url: jdbc:mysql://47.100.110.12:3306/testdb?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
+      username: devservice
+      password: kj123456!
+  redis:
+      host: 47.100.110.12
+      port: 6379
+      database: 1
+      lettuce:
+        shutdown-timeout: 200ms
+        pool:
+          max-active: 7
+          max-idle: 7
+          min-idle: 2
+          max-wait: -1ms
+
+
+#####################################################################
+########################  日志  ##########################
+#####################################################################
+
+logging:
+  level:
+    ROOT: INFO
+    com:
+      xncoding: DEBUG
+  file: D:/logs/customer.log
